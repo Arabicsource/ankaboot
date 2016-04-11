@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"regexp"
 )
 
 type Spider struct {
@@ -12,11 +13,22 @@ type Spider struct {
 	Target   string
 }
 
+// Crawl ...
 func (s *Spider) Crawl(url string) []*Element {
 	// Crawl through a webpage and for each match create new Element, and append
 	// to slice of Elements
 	if s.Target == "" {
 		log.Fatalln("No target has been set!")
+	}
+
+	var re *regexp.Regexp
+	switch s.Target {
+	case "a":
+		re = regexp.MustCompile(`<a\shref=.*>.*<\/a>`)
+	case "div":
+		re = regexp.MustCompile(`<div\s.*>(.*)<\/div>`)
+	default:
+		log.Println("Target Element does not exist")
 	}
 
 	resp, err := http.Get(url)
@@ -30,13 +42,23 @@ func (s *Spider) Crawl(url string) []*Element {
 		log.Println(err)
 		return nil
 	}
-	// test, make sure to remove later on
-	fmt.Println(body)
+	var matched [][]byte
+	if re.Match(body) {
+		matched = re.FindAll(body, len(body))
+		for k, element := range matched {
+			// For each element create new Element struct, and populate its fields.
+			fmt.Printf("[%v]\t%v\n", k, string(element))
+
+		}
+	}
+
+	// fmt.Println(matched)
+
 	return nil
 }
 
-func (s *Spider) Find(element string) *Spider {
+// Find ...
+func (s *Spider) Find(element string) {
 	s.Target = element
 
-	return s
 }
