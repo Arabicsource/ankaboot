@@ -9,28 +9,35 @@ type itemType int
 
 // Define all of the 'items' the lexer will need to lex.
 const (
-	itemError itemType = iota // Error
-	itemEOF                   // End Of File
-	itemLTag                  // Left Tag <
-	itemRTag                  // Right Tag >
-	itemHTML                  // HTML tag
-	itemHead
-	itemLink
-	itemTitle
-	itemStyle
-	itemBody
-	itemScript
-	itemDiv
-	itemP
-	itemA
-	itemImg
-	itemUl
-	itemLi
-	itemOl
-	itemText
-	itemId
-	itemClass
-	itemHref
+	itemError  itemType = iota // Error
+	itemEOF                    // End Of File
+	itemLTag                   // Left Tag <
+	itemRTag                   // Right Tag >
+	itemRCTag                  //Right Close tag  />  [ <input />]
+	itemLCTag                  // Left Close tag </   [ <a></a>]
+	itemHTML                   // HTML tag
+	itemHead                   // <head>
+	itemMeta                   // <meta >
+	itemLink                   // <link />
+	itemTitle                  // <title>
+	itemStyle                  // <style>
+	itemBody                   // <body>
+	itemScript                 //  <script>
+	itemDiv                    // <div>
+	itemP                      // <p>
+	itemA                      // <a>
+	itemImg                    // <img />
+	itemUl                     // <ul>
+	itemOl                     // <ol>
+	itemLi                     // <li>
+	itemText                   // the values wrapped by the elements
+	itemId                     //
+	itemClass                  //
+	itemHref                   //
+	itemSrc                    //
+	itemTyp                    //
+	itemName                   //
+	itemValue                  //
 )
 
 // item struct that will be passed through lexer items channel to the
@@ -75,7 +82,27 @@ func (l *lexer) emit(t itemType) {
 
 }
 
+//next moves to the next item in the  slice
+func (l *lexer) next() {
+	// next
+}
+
+//peek looks ahead 1 in a slice and then backs up.
+func (l *lexer) peek() {
+
+}
+
+//backup goes back 1 in a slice
+func (l *lexer) backup() {
+
+}
+
 //close open channel
 func close(items chan item) {
 	// close channel
+}
+
+//lexInsideElement
+func lexInsideElement() {
+	// lex inside the element
 }
